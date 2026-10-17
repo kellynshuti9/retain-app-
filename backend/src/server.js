@@ -5,11 +5,18 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
+import { seedDefaultCategory } from './utils/seed.js';
 import authRoutes from './routes/auth.js';
+import expenseRoutes from './routes/expenses.js';
+import budgetRoutes from './routes/budgets.js';
+import categoryRoutes from './routes/categories.js';
+import adminRoutes from './routes/admin.js';
 
 dotenv.config();
 
-connectDB();
+connectDB().then(() => {
+  seedDefaultCategory();
+});
 
 const app = express();
 
@@ -18,6 +25,10 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/expenses', expenseRoutes);
+app.use('/api/budgets', budgetRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
