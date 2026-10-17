@@ -1,21 +1,24 @@
+import dns from 'node:dns';
+dns.setServers(['1.1.1.1', '8.8.8.8']);
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { connectDB } from './config/db.js';
 
 dotenv.config();
 
+connectDB();
+
 const app = express();
 
-// Middleware
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
 
-// Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Root placeholder
 app.get('/', (req, res) => {
   res.send('Retain API is running');
 });
