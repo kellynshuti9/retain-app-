@@ -3,6 +3,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -108,52 +109,58 @@ const AdminCategoryManager = () => {
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-      <TableContainer>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {categories.map((cat) => (
-              <TableRow key={cat._id}>
-                <TableCell>{cat.name}</TableCell>
-                <TableCell>
-                  {cat.isDefault ? (
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                      Default
-                    </Typography>
-                  ) : (
-                    <Typography variant="caption">Custom</Typography>
-                  )}
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    size="small"
-                    onClick={() => openEdit(cat)}
-                    disabled={cat.isDefault}
-                    title={cat.isDefault ? 'Cannot edit the default category' : 'Rename'}
-                  >
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    color="error"
-                    onClick={() => handleDelete(cat)}
-                    disabled={cat.isDefault}
-                    title={cat.isDefault ? 'Cannot delete the default category' : 'Delete'}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </TableCell>
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+          <CircularProgress size={30} />
+        </Box>
+      ) : (
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell align="right">Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {categories.map((cat) => (
+                <TableRow key={cat._id}>
+                  <TableCell>{cat.name}</TableCell>
+                  <TableCell>
+                    {cat.isDefault ? (
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                        Default
+                      </Typography>
+                    ) : (
+                      <Typography variant="caption">Custom</Typography>
+                    )}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      size="small"
+                      onClick={() => openEdit(cat)}
+                      disabled={cat.isDefault}
+                      title={cat.isDefault ? 'Cannot edit the default category' : 'Rename'}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => handleDelete(cat)}
+                      disabled={cat.isDefault}
+                      title={cat.isDefault ? 'Cannot delete the default category' : 'Delete'}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
 
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="xs" fullWidth>
         <DialogTitle>{editingCategory ? 'Rename Category' : 'New Category'}</DialogTitle>
