@@ -1,32 +1,65 @@
-# React + TypeScript + Vite
+# Retain — Personal Expense & Budget Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A full-stack web application for tracking personal expenses, managing monthly budgets, and visualizing spending insights.
 
-Currently, two official plugins are available:
+## 🔗 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Frontend (Live App):** https://retain-akm4zyxg9-kellys-projects-eb477a8a.vercel.app
+- **Backend API (Live):** https://retain-app-k9k1.onrender.com/api/health
 
-## React Compiler
+> ⚠️ **Note:** The backend runs on Render's free tier — the first request after 15 minutes of inactivity may take ~30-50 seconds to wake up.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🎯 Features
 
-## Expanding the Oxlint configuration
+- **Authentication**: Signup, login, JWT-based sessions, protected routes, role-based access (user/admin)
+- **Expenses**: Full CRUD with title, amount, category, date, payment method, notes
+- **Filters** (via Redux Toolkit): Search, category, payment method, date range, sort by date/amount, pagination
+- **Budget**: Set monthly budgets, view spending progress with color-coded status (within / approaching / over)
+- **Dashboard**: Total spent, remaining budget, budget status, highest expense, recent expenses
+- **Admin** (role-protected): Platform insights + category CRUD with default-category protection
+- **Responsive UI** built with Material UI
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## 🛠️ Tech Stack
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+**Frontend**
+- React 19 + TypeScript + Vite
+- Redux Toolkit (filters state)
+- React Context (authentication)
+- React Router v7 (routing + protected routes)
+- Material UI v9 (components)
+- Axios (API client)
+- React Hook Form (forms)
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+**Backend**
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT + bcryptjs (auth)
+- Express CORS + dotenv
+
+**Deployment**
+- Frontend: Vercel
+- Backend: Render
+- Database: MongoDB Atlas (M0 free tier)
+
+## 📦 Project Structure
+
+```text
+retain-app-/
+├── frontend/               # React + Vite + TypeScript
+│   ├── src/
+│   │   ├── api/            # Axios client
+│   │   ├── components/     # Reusable UI components
+│   │   ├── context/        # AuthContext
+│   │   ├── hooks/          # Redux typed hooks
+│   │   ├── pages/          # Route pages
+│   │   ├── store/          # Redux store + slices
+│   │   ├── types/          # TypeScript types
+│   │   └── utils/          # Utilities
+│   └── vite.config.ts
+└── backend/                # Express + MongoDB
+    └── src/
+        ├── config/         # DB connection
+        ├── middleware/     # Auth + admin guards
+        ├── models/         # Mongoose schemas
+        ├── routes/         # API endpoints
+        └── utils/          # Seed helpers
